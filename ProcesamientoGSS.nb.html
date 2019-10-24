@@ -1769,30 +1769,52 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcblxuYGBgIn0= -->
+<pre class="r"><code>library(dplyr)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
+<pre><code>
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="dataset" class="section level2">
 <h2>Dataset</h2>
 <p>Los datos los encontramos en la pagina <a href="https://openpsychometrics.org/">openpsychometrics.org</a>, en específico la base que usaremos es <a href="https://openpsychometrics.org/tests/EBFMT/">Exposure Based Face Memory Test</a> en donde se puede tomar la prueba. Los datos se puede descargar de la pagina con los <a href="https://openpsychometrics.org/_rawdata/">datos crudos</a> y el link de descarga con el <a href="http://openpsychometrics.org/_rawdata/EBFMT.zip">archivo zip</a>.</p>
-<p>Sin embargo los datos que usaremos los adjunto en este repositorio, para un tener un proceso mas sencillo, en el archivo <em>rostros.zip</em> estan los datos y el archivo <em>codebook.txt</em> tiene la descripción de las variables.</p>
+<p>Sin embargo los datos que usaremos los adjunto en este repositorio, para un tener un proceso mas sencillo, en el archivo <a href="rostros.zip">rostros.zip</a> estan los datos y el archivo <a href="codebook.txt">codebook.txt</a> tiene la descripción de las variables.</p>
 </div>
 <div id="lectura-de-datos" class="section level2">
 <h2>Lectura de datos</h2>
 <p>Usaremos la función <code>read_tsv()</code> del paquete <strong>readr</strong> perteneciente al <strong>tidyverse</strong> que tiene la opción de leer archivos comprimidos. Sin embargo no podemos usar el enlace original con el zip <strong>EBMFT.zip</strong> ya que el paquete <strong>readr</strong> no permite especificar el archivo dentro del zip que querramos leer.</p>
+<div id="leyendo-del-archivo-comprimido" class="section level3">
+<h3>Leyendo del archivo comprimido</h3>
+<p>Con este comando podemos leer el archivo de datos, el primer argumento es el archivo comprimido, el segundo argumento evita que se muestre una barra de progreso de lectura y el argumento <code>col_types = cols()</code> al aceptar las columnas que <strong>readr</strong> intenta determinar evita que haya mensajes extra dentro de la ejecución.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm9zdHJvcy5kYXRhIDwtIHJlYWRfdHN2KFwicm9zdHJvcy56aXBcIiwgcHJvZ3Jlc3MgPSBGQUxTRSlcblxuYGBgIn0= -->
-<pre class="r"><code>rostros.data &lt;- read_tsv(&quot;rostros.zip&quot;, progress = FALSE)
-</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="leer-en-linea" class="section level3">
+<h3>Leer en línea</h3>
+<p>También podemos utilizar la versión comprimida en este repositorio directo en nuestro script sin descargarla y leyendo lo directamente del archivo comprimido en el repositorio.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbInJvc3Ryb3MuZGF0YSA8LSByZWFkX3RzdigiLCIgIFwiaHR0cHM6Ly9naXRodWIuY29tL25la3J1bS9Qcm9jZXNhbWllbnRvR29vZ2xlU3ByZWFkU2hlZXRzL3Jhdy9tYXN0ZXIvcm9zdHJvcy56aXBcIiwiLCIgIHByb2dyZXNzID0gRkFMU0UsIiwiICBjb2xfdHlwZXMgPSBjb2xzKCkiLCIpIl19 -->
+<pre class="r"><code>rostros.data &lt;- read_tsv(
+  &quot;https://github.com/nekrum/ProcesamientoGoogleSpreadSheets/raw/master/rostros.zip&quot;,
+  progress = FALSE,
+  col_types = cols()
+)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICAuZGVmYXVsdCA9IGNvbF9kb3VibGUoKSxcbiAgSVBfY291bnRyeSA9IFx1MDAxYlszMW1jb2xfY2hhcmFjdGVyKClcdTAwMWJbMzltXG4pXG5TZWUgc3BlYyguLi4pIGZvciBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9ucy5cbiJ9 -->
-<pre><code>Parsed with column specification:
-cols(
-  .default = col_double(),
-  IP_country = [31mcol_character()[39m
-)
-See spec(...) for full column specifications.</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <blockquote>
@@ -1801,17 +1823,42 @@ See spec(...) for full column specifications.</code></pre>
 </blockquote>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoZGF0YS50YWJsZSkiLCJkb3dubG9hZC5maWxlKFwiaHR0cDovL29wZW5wc3ljaG9tZXRyaWNzLm9yZy9fcmF3ZGF0YS9FQkZNVC56aXBcIiwgXCJFQkZNVC56aXBcIiwgcXVpZXQgPSBUKSIsImViZm10LmRhdGFzZXQgPC0gZnJlYWQoY21kID0gXCJ1bnppcCAtY3EgRUJGTVQuemlwIEVCRk1UL2RhdGEuY3N2XCIpIl19 -->
+<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoZGF0YS50YWJsZSkiLCJkb3dubG9hZC5maWxlKFwiaHR0cDovL29wZW5wc3ljaG9tZXRyaWNzLm9yZy9fcmF3ZGF0YS9FQkZNVC56aXBcIiwgXCJFQkZNVC56aXBcIiwgcXVpZXQgPSBUKSIsInJvc3Ryb3MuZGF0YSA8LSBmcmVhZChjbWQgPSBcImN1cmwgLVNMIGh0dHA6Ly9vcGVucHN5Y2hvbWV0cmljcy5vcmcvX3Jhd2RhdGEvRUJGTVQuemlwIHwgdW56aXAgLWNxIEVCRk1ULnppcCBFQkZNVC9kYXRhLmNzdlwiKSJdfQ== -->
 <pre class="r"><code>library(data.table)
 download.file(&quot;http://openpsychometrics.org/_rawdata/EBFMT.zip&quot;, &quot;EBFMT.zip&quot;, quiet = T)
-ebfmt.dataset &lt;- fread(cmd = &quot;unzip -cq EBFMT.zip EBFMT/data.csv&quot;)</code></pre>
+rostros.data &lt;- fread(cmd = &quot;curl -SL http://openpsychometrics.org/_rawdata/EBFMT.zip | unzip -cq EBFMT.zip EBFMT/data.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="seccionando-los-datos" class="section level2">
+<h2>Seccionando los datos</h2>
+<p>Si leemos el <a href="codebook.txt">codebook</a> podemos ver que hay tres secciones dentro de este conjunto de datos</p>
+<ol style="list-style-type: decimal">
+<li>Una relacionada con la prueba de rostros</li>
+<li>Otra relacionada con atributos de los participantes</li>
+<li>Preguntas de pruebas de Personalidad</li>
+</ol>
+<div id="prueba-de-rostros" class="section level3">
+<h3>Prueba de Rostros</h3>
+<p>Esta prueba tiene 2 segmentos uno con los resultados detallados para cada participante donde las columnas Q1 hast Q75 tienen las respuestas de 1 - <strong>Nuevo rostro</strong> 2 - <strong>Rostro visto</strong> y las columnas LAPSE1 hasta LAPSE75, son los registro de tiempo que tardan en responder los participantes.</p>
+<p>La segunda parte solo nos presenta el <strong>score</strong> obtenido por cada participante</p>
+<p>Como primera aproximación podemos extraer una subconjunto de datos con un identificador por participante, alguna caracteristica del participante como la <strong>edad</strong> y su puntuación en la prueba.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVuZGltaWVudG8uZGF0YSA8LSByb3N0cm9zLmRhdGEgJT4lIFxuICBzZWxlY3QoYWdlLCBzY29yZSkgJT4lIFxuICBtdXRhdGUoaWQuc3ViamVjdCA9IHJvd19udW1iZXIoKSlcbmBgYCJ9 -->
+<pre class="r"><code>rendimiento.data &lt;- rostros.data %&gt;% 
+  select(age, score) %&gt;% 
+  mutate(id.subject = row_number())</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJvY2VzYW1pZW50byBkZSBHb29nbGUgU3ByZWFkIFNoZWV0cyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3Igc2V0dXB9CmxpYnJhcnkocmVhZHIpCmBgYAoKIyMgRGF0YXNldAoKTG9zIGRhdG9zIGxvcyBlbmNvbnRyYW1vcyBlbiBsYSBwYWdpbmEgW29wZW5wc3ljaG9tZXRyaWNzLm9yZ10oaHR0cHM6Ly9vcGVucHN5Y2hvbWV0cmljcy5vcmcvKSwgZW4gZXNwZWPDrWZpY28gbGEgYmFzZSBxdWUKdXNhcmVtb3MgZXMgW0V4cG9zdXJlIEJhc2VkIEZhY2UgTWVtb3J5IFRlc3RdKGh0dHBzOi8vb3BlbnBzeWNob21ldHJpY3Mub3JnL3Rlc3RzL0VCRk1ULykgZW4gZG9uZGUgc2UgcHVlZGUgdG9tYXIgbGEgcHJ1ZWJhLgpMb3MgZGF0b3Mgc2UgcHVlZGUgZGVzY2FyZ2FyIGRlIGxhIHBhZ2luYSBjb24gbG9zIFtkYXRvcyBjcnVkb3NdKGh0dHBzOi8vb3BlbnBzeWNob21ldHJpY3Mub3JnL19yYXdkYXRhLykgeSBlbCBsaW5rIGRlIApkZXNjYXJnYSBjb24gZWwgW2FyY2hpdm8gemlwXShodHRwOi8vb3BlbnBzeWNob21ldHJpY3Mub3JnL19yYXdkYXRhL0VCRk1ULnppcCkuCgpTaW4gZW1iYXJnbyBsb3MgZGF0b3MgcXVlIHVzYXJlbW9zIGxvcyBhZGp1bnRvIGVuIGVzdGUgcmVwb3NpdG9yaW8sIHBhcmEgdW4gdGVuZXIgdW4gcHJvY2VzbyBtYXMgc2VuY2lsbG8sIGVuIGVsIGFyY2hpdm8gCl9yb3N0cm9zLnppcF8gZXN0YW4gbG9zIGRhdG9zIHkgZWwgYXJjaGl2byBfY29kZWJvb2sudHh0XyB0aWVuZSBsYSBkZXNjcmlwY2nDs24gZGUgbGFzIHZhcmlhYmxlcy4KCiMjIExlY3R1cmEgZGUgZGF0b3MKClVzYXJlbW9zIGxhIGZ1bmNpw7NuIGByZWFkX3RzdigpYCBkZWwgcGFxdWV0ZSAqKnJlYWRyKiogcGVydGVuZWNpZW50ZSBhbCAqKnRpZHl2ZXJzZSoqIHF1ZSB0aWVuZSBsYSBvcGNpw7NuIGRlIGxlZXIgYXJjaGl2b3MgCmNvbXByaW1pZG9zLiBTaW4gZW1iYXJnbyBubyBwb2RlbW9zIHVzYXIgZWwgZW5sYWNlIG9yaWdpbmFsIGNvbiBlbCB6aXAgKipFQk1GVC56aXAqKiB5YSBxdWUgZWwgcGFxdWV0ZSAqKnJlYWRyKiogbm8gcGVybWl0ZSAKZXNwZWNpZmljYXIgZWwgYXJjaGl2byBkZW50cm8gZGVsIHppcCBxdWUgcXVlcnJhbW9zIGxlZXIuCgpgYGB7ciBMZWN0dXJhIGRlIERhdG9zfQpyb3N0cm9zLmRhdGEgPC0gcmVhZF90c3YoInJvc3Ryb3MuemlwIiwgcHJvZ3Jlc3MgPSBGQUxTRSwgY29sX3R5cGVzID0gY29scygpKQpgYGAKCj4gKipOb3RhKio6Cj4KPiBFbiB1biBzaXN0ZW1hIExpbnV4IGVzIHBvc2libGUgbGVlciB1biBhcmNoaXZvIGVzcGVjw61maWNvIGRlbnRybyBkZSB1biBhcmNoaXZvIGNvbXByaW1pZG8gY29uICoqZGF0YS50YWJsZSoqCgpgYGB7ciBldmFsPUZBTFNFfQpsaWJyYXJ5KGRhdGEudGFibGUpCmRvd25sb2FkLmZpbGUoImh0dHA6Ly9vcGVucHN5Y2hvbWV0cmljcy5vcmcvX3Jhd2RhdGEvRUJGTVQuemlwIiwgIkVCRk1ULnppcCIsIHF1aWV0ID0gVCkKZWJmbXQuZGF0YXNldCA8LSBmcmVhZChjbWQgPSAidW56aXAgLWNxIEVCRk1ULnppcCBFQkZNVC9kYXRhLmNzdiIpCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJvY2VzYW1pZW50byBkZSBHb29nbGUgU3ByZWFkIFNoZWV0cyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3Igc2V0dXB9CmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoZ29vZ2xlc2hlZXRzKQpsaWJyYXJ5KGRwbHlyKQpgYGAKCiMjIERhdGFzZXQKCkxvcyBkYXRvcyBsb3MgZW5jb250cmFtb3MgZW4gbGEgcGFnaW5hIFtvcGVucHN5Y2hvbWV0cmljcy5vcmddKGh0dHBzOi8vb3BlbnBzeWNob21ldHJpY3Mub3JnLyksIGVuIGVzcGVjw61maWNvIGxhIGJhc2UgcXVlCnVzYXJlbW9zIGVzIFtFeHBvc3VyZSBCYXNlZCBGYWNlIE1lbW9yeSBUZXN0XShodHRwczovL29wZW5wc3ljaG9tZXRyaWNzLm9yZy90ZXN0cy9FQkZNVC8pIGVuIGRvbmRlIHNlIHB1ZWRlIHRvbWFyIGxhIHBydWViYS4KTG9zIGRhdG9zIHNlIHB1ZWRlIGRlc2NhcmdhciBkZSBsYSBwYWdpbmEgY29uIGxvcyBbZGF0b3MgY3J1ZG9zXShodHRwczovL29wZW5wc3ljaG9tZXRyaWNzLm9yZy9fcmF3ZGF0YS8pIHkgZWwgbGluayBkZSAKZGVzY2FyZ2EgY29uIGVsIFthcmNoaXZvIHppcF0oaHR0cDovL29wZW5wc3ljaG9tZXRyaWNzLm9yZy9fcmF3ZGF0YS9FQkZNVC56aXApLgoKU2luIGVtYmFyZ28gbG9zIGRhdG9zIHF1ZSB1c2FyZW1vcyBsb3MgYWRqdW50byBlbiBlc3RlIHJlcG9zaXRvcmlvLCBwYXJhIHVuIHRlbmVyIHVuIHByb2Nlc28gbWFzIHNlbmNpbGxvLCBlbiBlbCBhcmNoaXZvIApbcm9zdHJvcy56aXBdKHJvc3Ryb3MuemlwKSBlc3RhbiBsb3MgZGF0b3MgeSBlbCBhcmNoaXZvIFtjb2RlYm9vay50eHRdKGNvZGVib29rLnR4dCkgdGllbmUgbGEgZGVzY3JpcGNpw7NuIGRlIGxhcyB2YXJpYWJsZXMuCgojIyBMZWN0dXJhIGRlIGRhdG9zCgpVc2FyZW1vcyBsYSBmdW5jacOzbiBgcmVhZF90c3YoKWAgZGVsIHBhcXVldGUgKipyZWFkcioqIHBlcnRlbmVjaWVudGUgYWwgKip0aWR5dmVyc2UqKiBxdWUgdGllbmUgbGEgb3BjacOzbiBkZSBsZWVyIGFyY2hpdm9zIApjb21wcmltaWRvcy4gU2luIGVtYmFyZ28gbm8gcG9kZW1vcyB1c2FyIGVsIGVubGFjZSBvcmlnaW5hbCBjb24gZWwgemlwICoqRUJNRlQuemlwKiogeWEgcXVlIGVsIHBhcXVldGUgKipyZWFkcioqIG5vIHBlcm1pdGUgCmVzcGVjaWZpY2FyIGVsIGFyY2hpdm8gZGVudHJvIGRlbCB6aXAgcXVlIHF1ZXJyYW1vcyBsZWVyLgoKIyMjIExleWVuZG8gZGVsIGFyY2hpdm8gY29tcHJpbWlkbwoKQ29uIGVzdGUgY29tYW5kbyBwb2RlbW9zIGxlZXIgZWwgYXJjaGl2byBkZSBkYXRvcywgZWwgcHJpbWVyIGFyZ3VtZW50byBlcyBlbCBhcmNoaXZvIGNvbXByaW1pZG8sIGVsIHNlZ3VuZG8gYXJndW1lbnRvCmV2aXRhIHF1ZSBzZSBtdWVzdHJlIHVuYSBiYXJyYSBkZSBwcm9ncmVzbyBkZSBsZWN0dXJhIHkgZWwgYXJndW1lbnRvIGBjb2xfdHlwZXMgPSBjb2xzKClgIGFsIGFjZXB0YXIgbGFzIGNvbHVtbmFzIHF1ZSAKKipyZWFkcioqIGludGVudGEgZGV0ZXJtaW5hciBldml0YSBxdWUgaGF5YSBtZW5zYWplcyBleHRyYSBkZW50cm8gZGUgbGEgZWplY3VjacOzbi4KCmBgYHtyIExlY3R1cmEgZGUgRGF0b3N9CnJvc3Ryb3MuZGF0YSA8LSByZWFkX3Rzdigicm9zdHJvcy56aXAiLCBwcm9ncmVzcyA9IEZBTFNFLCBjb2xfdHlwZXMgPSBjb2xzKCkpCmBgYAoKIyMjIExlZXIgZW4gbMOtbmVhCgpUYW1iacOpbiBwb2RlbW9zIHV0aWxpemFyIGxhIHZlcnNpw7NuIGNvbXByaW1pZGEgZW4gZXN0ZSByZXBvc2l0b3JpbyBkaXJlY3RvIGVuIG51ZXN0cm8gc2NyaXB0IHNpbiBkZXNjYXJnYXJsYSB5IGxleWVuZG8gCmxvIGRpcmVjdGFtZW50ZSBkZWwgYXJjaGl2byBjb21wcmltaWRvIGVuIGVsIHJlcG9zaXRvcmlvLgoKYGBge3IgTGVjdHVyYSBlbiBsw61uZWEsIGV2YWw9RkFMU0V9CnJvc3Ryb3MuZGF0YSA8LSByZWFkX3RzdigKICAiaHR0cHM6Ly9naXRodWIuY29tL25la3J1bS9Qcm9jZXNhbWllbnRvR29vZ2xlU3ByZWFkU2hlZXRzL3Jhdy9tYXN0ZXIvcm9zdHJvcy56aXAiLAogIHByb2dyZXNzID0gRkFMU0UsCiAgY29sX3R5cGVzID0gY29scygpCikKYGBgCgo+ICoqTm90YSoqOgo+Cj4gRW4gdW4gc2lzdGVtYSBMaW51eCBlcyBwb3NpYmxlIGxlZXIgdW4gYXJjaGl2byBlc3BlY8OtZmljbyBkZW50cm8gZGUgdW4gYXJjaGl2byBjb21wcmltaWRvIGNvbiAqKmRhdGEudGFibGUqKgoKYGBge3IgZXZhbD1GQUxTRX0KbGlicmFyeShkYXRhLnRhYmxlKQpkb3dubG9hZC5maWxlKCJodHRwOi8vb3BlbnBzeWNob21ldHJpY3Mub3JnL19yYXdkYXRhL0VCRk1ULnppcCIsICJFQkZNVC56aXAiLCBxdWlldCA9IFQpCnJvc3Ryb3MuZGF0YSA8LSBmcmVhZChjbWQgPSAiY3VybCAtU0wgaHR0cDovL29wZW5wc3ljaG9tZXRyaWNzLm9yZy9fcmF3ZGF0YS9FQkZNVC56aXAgfCB1bnppcCAtY3EgRUJGTVQuemlwIEVCRk1UL2RhdGEuY3N2IikKYGBgCgojIyBTZWNjaW9uYW5kbyBsb3MgZGF0b3MKClNpIGxlZW1vcyBlbCBbY29kZWJvb2tdKGNvZGVib29rLnR4dCkgcG9kZW1vcyB2ZXIgcXVlIGhheSB0cmVzIHNlY2Npb25lcyBkZW50cm8gZGUgZXN0ZSBjb25qdW50byBkZSBkYXRvcwoKMS4gVW5hIHJlbGFjaW9uYWRhIGNvbiBsYSBwcnVlYmEgZGUgcm9zdHJvcwoyLiBPdHJhIHJlbGFjaW9uYWRhIGNvbiBhdHJpYnV0b3MgZGUgbG9zIHBhcnRpY2lwYW50ZXMKMy4gUHJlZ3VudGFzIGRlIHBydWViYXMgZGUgUGVyc29uYWxpZGFkCgojIyMgUHJ1ZWJhIGRlIFJvc3Ryb3MKCkVzdGEgcHJ1ZWJhIHRpZW5lIDIgc2VnbWVudG9zIHVubyBjb24gbG9zIHJlc3VsdGFkb3MgZGV0YWxsYWRvcyBwYXJhIGNhZGEgcGFydGljaXBhbnRlIGRvbmRlIGxhcyBjb2x1bW5hcyBRMSBoYXN0IFE3NQp0aWVuZW4gbGFzIHJlc3B1ZXN0YXMgZGUgMSAtICoqTnVldm8gcm9zdHJvKiogMiAtICoqUm9zdHJvIHZpc3RvKiogeSBsYXMgY29sdW1uYXMgTEFQU0UxIGhhc3RhIExBUFNFNzUsIHNvbiBsb3MgcmVnaXN0cm8KZGUgdGllbXBvIHF1ZSB0YXJkYW4gZW4gcmVzcG9uZGVyIGxvcyBwYXJ0aWNpcGFudGVzLgoKTGEgc2VndW5kYSBwYXJ0ZSBzb2xvIG5vcyBwcmVzZW50YSBlbCAqKnNjb3JlKiogb2J0ZW5pZG8gcG9yIGNhZGEgcGFydGljaXBhbnRlCgpDb21vIHByaW1lcmEgYXByb3hpbWFjacOzbiBwb2RlbW9zIGV4dHJhZXIgdW5hIHN1YmNvbmp1bnRvIGRlIGRhdG9zIGNvbiB1biBpZGVudGlmaWNhZG9yIHBvciBwYXJ0aWNpcGFudGUsIGFsZ3VuYQpjYXJhY3RlcmlzdGljYSBkZWwgcGFydGljaXBhbnRlIGNvbW8gbGEgKiplZGFkKiogeSBzdSBwdW50dWFjacOzbiBlbiBsYSBwcnVlYmEuCgpgYGB7cn0KcmVuZGltaWVudG8uZGF0YSA8LSByb3N0cm9zLmRhdGEgJT4lIAogIHNlbGVjdChhZ2UsIHNjb3JlKSAlPiUgCiAgbXV0YXRlKGlkLnN1YmplY3QgPSByb3dfbnVtYmVyKCkpCmBgYAoK</div>
 
 
 
