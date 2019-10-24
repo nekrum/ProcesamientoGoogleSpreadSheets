@@ -1,0 +1,39 @@
+---
+title: "Procesamiento de Google Spread Sheets"
+output: html_notebook
+---
+
+```{r setup}
+library(readr)
+```
+
+## Dataset
+
+Los datos los encontramos en la pagina [openpsychometrics.org](https://openpsychometrics.org/), en específico la base que
+usaremos es [Exposure Based Face Memory Test](https://openpsychometrics.org/tests/EBFMT/) en donde se puede tomar la prueba.
+Los datos se puede descargar de la pagina con los [datos crudos](https://openpsychometrics.org/_rawdata/) y el link de 
+descarga con el [archivo zip](http://openpsychometrics.org/_rawdata/EBFMT.zip).
+
+Sin embargo los datos que usaremos los adjunto en este repositorio, para un tener un proceso mas sencillo, en el archivo 
+_rostros.zip_ estan los datos y el archivo _codebook.txt_ tiene la descripción de las variables.
+
+## Lectura de datos
+
+Usaremos la función `read_tsv()` del paquete **readr** perteneciente al **tidyverse** que tiene la opción de leer archivos 
+comprimidos. Sin embargo no podemos usar el enlace original con el zip **EBMFT.zip** ya que el paquete **readr** no permite 
+especificar el archivo dentro del zip que querramos leer.
+
+```{r Lectura de Datos}
+rostros.data <- read_tsv("rostros.zip", progress = FALSE, col_types = cols())
+```
+
+> **Nota**:
+>
+> En un sistema Linux es posible leer un archivo específico dentro de un archivo comprimido con **data.table**
+
+```{r eval=FALSE}
+library(data.table)
+download.file("http://openpsychometrics.org/_rawdata/EBFMT.zip", "EBFMT.zip", quiet = T)
+ebfmt.dataset <- fread(cmd = "unzip -cq EBFMT.zip EBFMT/data.csv")
+```
+
