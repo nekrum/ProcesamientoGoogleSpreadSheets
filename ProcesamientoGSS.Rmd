@@ -5,6 +5,8 @@ output: html_notebook
 
 ```{r setup}
 library(readr)
+library(googlesheets)
+library(dplyr)
 ```
 
 ## Dataset
@@ -15,7 +17,7 @@ Los datos se puede descargar de la pagina con los [datos crudos](https://openpsy
 descarga con el [archivo zip](http://openpsychometrics.org/_rawdata/EBFMT.zip).
 
 Sin embargo los datos que usaremos los adjunto en este repositorio, para un tener un proceso mas sencillo, en el archivo 
-_rostros.zip_ estan los datos y el archivo _codebook.txt_ tiene la descripción de las variables.
+[rostros.zip](rostros.zip) estan los datos y el archivo [codebook.txt](codebook.txt) tiene la descripción de las variables.
 
 ## Lectura de datos
 
@@ -23,8 +25,27 @@ Usaremos la función `read_tsv()` del paquete **readr** perteneciente al **tidyv
 comprimidos. Sin embargo no podemos usar el enlace original con el zip **EBMFT.zip** ya que el paquete **readr** no permite 
 especificar el archivo dentro del zip que querramos leer.
 
+### Leyendo del archivo comprimido
+
+Con este comando podemos leer el archivo de datos, el primer argumento es el archivo comprimido, el segundo argumento
+evita que se muestre una barra de progreso de lectura y el argumento `col_types = cols()` al aceptar las columnas que 
+**readr** intenta determinar evita que haya mensajes extra dentro de la ejecución.
+
 ```{r Lectura de Datos}
 rostros.data <- read_tsv("rostros.zip", progress = FALSE, col_types = cols())
+```
+
+### Leer en línea
+
+También podemos utilizar la versión comprimida en este repositorio directo en nuestro script sin descargarla y leyendo 
+lo directamente del archivo comprimido en el repositorio.
+
+```{r Lectura en línea, eval=FALSE}
+rostros.data <- read_tsv(
+  "https://github.com/nekrum/ProcesamientoGoogleSpreadSheets/raw/master/rostros.zip",
+  progress = FALSE,
+  col_types = cols()
+)
 ```
 
 > **Nota**:
@@ -34,6 +55,31 @@ rostros.data <- read_tsv("rostros.zip", progress = FALSE, col_types = cols())
 ```{r eval=FALSE}
 library(data.table)
 download.file("http://openpsychometrics.org/_rawdata/EBFMT.zip", "EBFMT.zip", quiet = T)
-ebfmt.dataset <- fread(cmd = "unzip -cq EBFMT.zip EBFMT/data.csv")
+rostros.data <- fread(cmd = "curl -SL http://openpsychometrics.org/_rawdata/EBFMT.zip | unzip -cq EBFMT.zip EBFMT/data.csv")
+```
+
+## Seccionando los datos
+
+Si leemos el [codebook](codebook.txt) podemos ver que hay tres secciones dentro de este conjunto de datos
+
+1. Una relacionada con la prueba de rostros
+2. Otra relacionada con atributos de los participantes
+3. Preguntas de pruebas de Personalidad
+
+### Prueba de Rostros
+
+Esta prueba tiene 2 segmentos uno con los resultados detallados para cada participante donde las columnas Q1 hast Q75
+tienen las respuestas de 1 - **Nuevo rostro** 2 - **Rostro visto** y las columnas LAPSE1 hasta LAPSE75, son los registro
+de tiempo que tardan en responder los participantes.
+
+La segunda parte solo nos presenta el **score** obtenido por cada participante
+
+Como primera aproximación podemos extraer una subconjunto de datos con un identificador por participante, alguna
+caracteristica del participante como la **edad** y su puntuación en la prueba.
+
+```{r}
+rendimiento.data <- rostros.data %>% 
+  select(age, score) %>% 
+  mutate(id.subject = row_number())
 ```
 
