@@ -17,7 +17,7 @@ Los datos se puede descargar de la pagina con los [datos crudos](https://openpsy
 descarga con el [archivo zip](http://openpsychometrics.org/_rawdata/EBFMT.zip).
 
 Sin embargo los datos que usaremos los adjunto en este repositorio, para un tener un proceso mas sencillo, en el archivo 
-[rostros.zip](rostros.zip) estan los datos y el archivo [codebook.txt](codebook.txt) tiene la descripción de las variables.
+[rostros.gz](rostros.gz) estan los datos y el archivo [codebook.txt](codebook.txt) tiene la descripción de las variables.
 
 ## Lectura de datos
 
@@ -31,8 +31,8 @@ Con este comando podemos leer el archivo de datos, el primer argumento es el arc
 evita que se muestre una barra de progreso de lectura y el argumento `col_types = cols()` al aceptar las columnas que 
 **readr** intenta determinar evita que haya mensajes extra dentro de la ejecución.
 
-```{r Lectura de Datos}
-rostros.data <- read_tsv("rostros.zip", progress = FALSE, col_types = cols())
+```{r Lectura de Datos, eval=FALSE}
+rostros.data <- read_tsv("rostros.gz", progress = FALSE, col_types = cols())
 ```
 
 ### Leer en línea
@@ -40,13 +40,17 @@ rostros.data <- read_tsv("rostros.zip", progress = FALSE, col_types = cols())
 También podemos utilizar la versión comprimida en este repositorio directo en nuestro script sin descargarla y leyendo 
 lo directamente del archivo comprimido en el repositorio.
 
-```{r Lectura en línea, eval=FALSE}
+```{r Lectura en línea}
 rostros.data <- read_tsv(
-  "https://github.com/nekrum/ProcesamientoGoogleSpreadSheets/raw/master/rostros.zip",
+  "https://github.com/nekrum/ProcesamientoGoogleSpreadSheets/raw/master/rostros.gz",
   progress = FALSE,
-  col_types = cols()
+  col_types = cols(),
+  n_max = 1768
 )
 ```
+
+Este comando solo soporta la lectura de datos archivos comprimidos del tipo **.gz**, ademas en este caso leía una fila mas
+por lo que para no tener este problema fue necesario definir el número máximo de líneas.
 
 > **Nota**:
 >
